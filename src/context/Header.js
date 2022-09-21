@@ -10,18 +10,18 @@ const Header = () => {
   const [fetchData, setFetchData] = useState({
     image: "",
   });
-  useEffect(() => {
-    async function getKind() {
-      const { data, error } = await apiClient.loadDetails();
-      console.log(data);
+  // useEffect(() => {
+  //   async function getKind() {
+  //     const { data, error } = await apiClient.loadDetails();
+  //     console.log(data);
 
-      setFetchData({
-        image: data.result.image,
-      });
-    }
+  //     setFetchData({
+  //       image: data.result.image,
+  //     });
+  //   }
 
-    getKind();
-  }, [isFocused]);
+  //   getKind();
+  // }, [isFocused]);
   return (
     <View style={styles.header}>
       <View style={styles.leftSideOfHeader}>

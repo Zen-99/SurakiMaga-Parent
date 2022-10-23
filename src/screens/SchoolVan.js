@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import Slideshow from "react-native-image-slider-show";
 import Header from "../context/Header";
 
-const SchoolVan = () => {
+const SchoolVan = ({ navigation }) => {
   let imageBucket = [];
   const [information, setInformation] = useState({
     owner: "",
@@ -75,7 +75,7 @@ const SchoolVan = () => {
         <TouchableOpacity style={styles.button}>
           <Text
             style={styles.buttonText}
-            onPress={() => navigation.navigate("HomeScreen")}
+            onPress={() => navigation.navigate("Payments")}
           >
             Payments
           </Text>

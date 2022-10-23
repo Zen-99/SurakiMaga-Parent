@@ -11,7 +11,6 @@ import DatePicker from "@react-native-community/datetimepicker";
 import Header from "../context/Header";
 import MapView from "react-native-maps";
 import React, { useState, useEffect } from "react";
-import CheckBox from "@react-native-community/checkbox";
 import { SafeAreaInsetsContext } from "react-native-safe-area-context";
 const Inform = () => {
   const [date, setDate] = useState(new Date());

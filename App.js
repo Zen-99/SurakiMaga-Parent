@@ -8,6 +8,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import TabNavigator from "./src/navigations/TabNavigator";
 import Payments from "./src/screens/Payments";
+import EditProfile from "./src/screens/EditProfile";
+import Header from "./src/context/Header";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,8 @@ export default function App() {
         <Stack.Screen name="Verification" component={Verification} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Payments" component={Payments} />
+        <Stack.Screen name="Header" component={Header} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

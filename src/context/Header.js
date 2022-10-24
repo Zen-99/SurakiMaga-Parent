@@ -169,7 +169,10 @@ const Header = () => {
             )}
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.addStudent}>
+        <TouchableOpacity
+          style={styles.addStudent}
+          onPress={() => navigation.navigate("AddChild")}
+        >
           <Image
             source={require("../../assets/images/add-student.png")}
             style={styles.addStudentIcon}

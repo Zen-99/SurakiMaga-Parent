@@ -11,8 +11,10 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "react-native-elements";
 import { useIsFocused } from "@react-navigation/native";
 import { colors, parameters } from "../globals/styles";
+import { useNavigation } from "@react-navigation/native";
 
 const Header = () => {
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [isProPicClicked, setIsProPicClicked] = useState(false);
   const [fetchData, setFetchData] = useState({
@@ -82,7 +84,10 @@ const Header = () => {
             </View>
             <View style={styles.editProfileContainer}>
               <Text style={styles.parentTxt}>Parent</Text>
-              <TouchableOpacity style={styles.editProfileBtn}>
+              <TouchableOpacity
+                style={styles.editProfileBtn}
+                onPress={() => navigation.navigate("EditProfile")}
+              >
                 <Text style={styles.editProfileBtnText}>Edit Profile</Text>
               </TouchableOpacity>
             </View>

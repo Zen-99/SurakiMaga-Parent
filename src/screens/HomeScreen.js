@@ -15,7 +15,8 @@ import { Icon, SearchBar } from "react-native-elements";
 import { Searchbar } from "react-native-paper";
 import Header from "../context/Header";
 import { colors, parameters } from "../globals/styles";
-const HomeScreen = () => {
+
+const HomeScreen = ({ navigation }) => {
   const countries = ["Egypt", "Canada", "Australia", "Ireland"];
   const [searchAvailable, setSearchAvailable] = useState(false);
   return (
@@ -75,11 +76,45 @@ const HomeScreen = () => {
         style={styles.scrollview}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.contentBox}></View>
-        <View style={styles.contentBox}></View>
-        <View style={styles.contentBox}></View>
-        <View style={styles.contentBox}></View>
-        <View style={styles.contentBox}></View>
+        <View style={styles.contentBox}>
+          <View style={styles.leftSide}>
+            <Image
+              source={require("../../assets/images/Picture1.png")}
+              style={styles.contentBoxImage}
+            />
+          </View>
+          <View style={styles.rightSide}>
+            <View style={styles.rightUpper}>
+              <View style={styles.contentBoxTitle}>
+                <Text style={styles.contentBoxTitleText}>
+                  School service to Vishaka
+                </Text>
+              </View>
+              <View style={styles.ratings}>
+                <View style={styles.ratingsBox}>
+                  <Text style={styles.ratingsText}>8.6</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.rightLower}>
+              <View style={styles.rightLowerLeft}>
+                <Text style={styles.locationText}>Piliyandala</Text>
+                <Text style={styles.typeText}>Van</Text>
+                <View style={styles.seatsBox}>
+                  <Text style={styles.seatsBoxText}>20 Seats</Text>
+                </View>
+                <View style={styles.seatsAndViewMore}>
+                  <TouchableOpacity
+                    style={styles.ViewMoreBtn}
+                    onPress={() => navigation.navigate("MoreDetails")}
+                  >
+                    <Text style={styles.ViewMoreBtnTxt}>View more</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -119,6 +154,7 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     display: "flex",
+    flexDirection: "row",
     backgroundColor: colors.midBoxWhite,
     marginTop: 50,
     width: (parameters.SCREEN_WIDTH * 11) / 12,
@@ -236,5 +272,114 @@ const styles = StyleSheet.create({
   nameBox2DropTxt: {
     color: "white",
     fontSize: 20,
+  },
+  leftSide: {
+    width: "40%",
+    height: "100%",
+    // backgroundColor: "yellow",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rightSide: {
+    width: "60%",
+    height: "100%",
+    // backgroundColor: "cyan",
+  },
+  contentBoxImage: {
+    width: "60%",
+    height: "60%",
+  },
+  rightUpper: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: "35%",
+  },
+  rightLower: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: "65%",
+  },
+  contentBoxTitle: {
+    display: "flex",
+    width: "70%",
+    flexDirection: "row",
+    height: "100%",
+    alignItems: "center",
+    // backgroundColor: "yellow",
+  },
+  contentBoxTitleText: {
+    fontSize: 18,
+    fontWeight: "500",
+  },
+  ratings: {
+    display: "flex",
+    width: "30%",
+    flexDirection: "row",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    // backgroundColor: "yellow",
+  },
+  ratingsBox: {
+    width: "70%",
+    height: "60%",
+    display: "flex",
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.orange,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ratingsText: {
+    fontSize: 15,
+    color: colors.orange,
+  },
+  rightLowerLeft: {
+    display: "flex",
+    // flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
+    // backgroundColor: "yellow",
+  },
+  seatsBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 60,
+    height: 30,
+    borderRadius: 5,
+    backgroundColor: "#03c04a",
+  },
+  seatsBoxText: {
+    color: "white",
+  },
+  seatsAndViewMore: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 10,
+    paddingBottom: 5,
+    width: "100%",
+  },
+  ViewMoreBtn: {
+    width: 70,
+    height: 40,
+    backgroundColor: colors.orange,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  locationText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  ViewMoreBtnTxt: {
+    color: "white",
   },
 });

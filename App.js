@@ -10,6 +10,7 @@ import TabNavigator from "./src/navigations/TabNavigator";
 import Payments from "./src/screens/Payments";
 import EditProfile from "./src/screens/EditProfile";
 import AddChild from "./src/screens/AddChild";
+import EditChild from "./src/screens/EditChild";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="Payments" component={Payments} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="AddChild" component={AddChild} />
+        <Stack.Screen name="EditChild" component={EditChild} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -109,7 +109,10 @@ const Header = () => {
         <View style={styles.ChildTopic}>
           <Text style={styles.ChildTopicText}>Children</Text>
         </View>
-        <TouchableOpacity style={styles.childBox}>
+        <TouchableOpacity
+          style={styles.childBox}
+          onPress={() => navigation.navigate("EditChild")}
+        >
           <View style={styles.childBoxLeft}>
             <View style={styles.childNameContainer}>
               <Text style={styles.childName}>Dilshi Navodya</Text>

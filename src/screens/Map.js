@@ -26,11 +26,36 @@ const Map = () => {
     longitude: 79.85548,
     speed: 0.0023679917212575674,
   });
+  const origin = {
+    latitude: 6.902333307966652,
+    longitude: 79.8611743548024,
+  };
   const destination = {
     latitude: 6.909044420770567,
     longitude: 79.87515656700285,
   };
-  const origin = { latitude: position.latitude, longitude: position.longitude };
+  const studentLocation = [];
+  const temp = {
+    latitude: 6.905597,
+    longitude: 79.873388,
+  };
+  studentLocation.push(temp);
+
+  const GOOGLE_MAPS_APIKEY = "AIzaSyDrqTMpp62uuZvHpJDV8XHP4yZjeoCbR-4";
+
+  useEffect(() => {
+    apiClient
+      .getToken()
+      .then((data) => data)
+      .then((value) => {
+        if (value == "") {
+          navigation.navigate("Login");
+        } else {
+          apiClient.setToken(value);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
@@ -66,6 +91,36 @@ const Map = () => {
         // customMapStyle={mapStyle}
         followsUserLocation={true}
       >
+        <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={3}
+          optimizeWaypoints={true}
+          waypoints={studentLocation}
+        />
+        <Marker
+          coordinate={{
+            latitude: 6.902333307966652,
+            longitude: 79.8611743548024,
+          }}
+        >
+          <Image
+            style={{ width: 40, height: 40, resizeMode: "cover" }}
+            source={require("../../assets/images/schoolvanmap.png")}
+          />
+        </Marker>
+        <Marker
+          coordinate={{
+            latitude: 6.905597,
+            longitude: 79.873388,
+          }}
+        >
+          <Image
+            style={{ width: 40, height: 40, resizeMode: "cover" }}
+            source={require("../../assets/images/studentmap.png")}
+          />
+        </Marker>
         <Marker
           coordinate={{
             latitude: 6.909044420770567,

@@ -5,7 +5,7 @@ class ApiClient {
   constructor(remoteHostUrl) {
     this.remoteHostUrl = remoteHostUrl;
     this.token = null;
-    this.tokenName = "surakimaga_driver_token";
+    this.tokenName = "surakimaga_parent_token";
   }
 
   async setToken(token) {
@@ -13,7 +13,7 @@ class ApiClient {
     await SecureStore.setItemAsync(this.tokenName, token);
   }
   getToken = async () => {
-    // get Data from Storage
+    // get Data from Storages
     try {
       const data = await SecureStore.getItemAsync(this.tokenName);
       if (data !== null) {
@@ -52,36 +52,54 @@ class ApiClient {
 
   async verifyUser(credentials) {
     return await this.request({
-      endpoint: `driverauth/verify`,
+      endpoint: `auth/verify`,
       method: `POST`,
       data: credentials,
     });
   }
   async sendOtp(credentials) {
     return await this.request({
-      endpoint: `driverauth/sendOtp`,
+      endpoint: `auth/sendOtp`,
       method: `POST`,
       data: credentials,
     });
   }
   async resendOtp() {
     return await this.request({
-      endpoint: `driverauth/resendOtp`,
+      endpoint: `auth/resendOtp`,
       method: `GET`,
     });
   }
   async submitCredentials(credentials) {
     return await this.request({
-      endpoint: `driverauth/submitCredentials`,
+      endpoint: `auth/submitCredentials`,
       method: `POST`,
       data: credentials,
     });
   }
+  async getParentDetails() {
+    return await this.request({
+      endpoint: `parent/getBio`,
+      method: `POST`,
+    });
+  }
+  async getChildren(credentials) {
+    return await this.request({
+      endpoint: `parent/children`,
+      method: `GET`,
+    });
+  }
   async login(credentials) {
     return await this.request({
-      endpoint: `driverauth/login`,
+      endpoint: `auth/loginM`,
       method: `POST`,
       data: credentials,
+    });
+  }
+  async getAdvertisements() {
+    return await this.request({
+      endpoint: `user/schoolvanadvertisement`,
+      method: `GET`,
     });
   }
   async loadDetails() {

@@ -15,23 +15,22 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const Login = ({ navigation }) => {
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
-    email: "dadu@gmail.com",
-    password: "dadu123",
+    username: "",
+    password: "",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleOnSubmit = async () => {
     setErrors((e) => ({ ...e, form: null }));
     const { data, error } = await apiClient.login({
-      email: form.email,
+      username: form.username,
       password: form.password,
     });
-    console.log(data);
-    if (data.respond != "invalid") {
-      //console.log(data.token)
+    if (data.user != "invalid") {
+      console.log(data);
       apiClient.setToken(data.token);
 
-      navigation.navigate("HomeScreen");
+      navigation.navigate("TabNavigator");
     } else {
       setModalVisible(true);
     }
@@ -56,7 +55,7 @@ const Login = ({ navigation }) => {
       >
         <View style={styles.alert}>
           <View style={styles.alertbox}>
-            <Text style={styles.alertTitle}>Your email or password</Text>
+            <Text style={styles.alertTitle}>Your Username or password</Text>
             <Text style={styles.alertTitle}>might be incorrect!</Text>
             <TouchableOpacity
               style={styles.confirmbtn}
@@ -82,7 +81,7 @@ const Login = ({ navigation }) => {
           mode="outlined"
           label="Username"
           theme={{ colors: { primary: "#FF8C01", underlineColor: "#FF8C01" } }}
-          onChangeText={(text) => setForm({ ...form, email: text })}
+          onChangeText={(text) => setForm({ ...form, username: text })}
           left={<TextInput.Icon name="account" />}
         />
         <TextInput
@@ -97,10 +96,7 @@ const Login = ({ navigation }) => {
         />
       </View>
       <TouchableOpacity style={styles.button}>
-        <Text
-          style={styles.buttonText}
-          onPress={() => navigation.navigate("HomeScreen")}
-        >
+        <Text style={styles.buttonText} onPress={handleOnSubmit}>
           Log in
         </Text>
       </TouchableOpacity>

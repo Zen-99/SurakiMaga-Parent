@@ -23,7 +23,19 @@ const SchoolVan = ({ navigation }) => {
     vehicleno: "",
     DriverImage: "",
   });
-
+  useEffect(() => {
+    apiClient
+      .getToken()
+      .then((data) => data)
+      .then((value) => {
+        if (value == "") {
+          navigation.navigate("Login");
+        } else {
+          apiClient.setToken(value);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
   return (
     <View style={styles.container}>
       <Header />

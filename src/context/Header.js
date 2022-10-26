@@ -18,8 +18,41 @@ const Header = () => {
   const isFocused = useIsFocused();
   const [isProPicClicked, setIsProPicClicked] = useState(false);
   const [fetchData, setFetchData] = useState({
+    id: "",
     image: "",
+    name: "",
+    contact: "",
+    nic: "",
   });
+  const [children, setChildren] = useState(null);
+
+  useEffect(() => {
+    async function getParentDetails() {
+      const { data, error } = await apiClient.getParentDetails();
+      if (data.result != undefined) {
+        setFetchData({
+          id: data.result.id,
+          name: data.result.name,
+          image: data.result.pro_pic,
+          contact: data.result.contact,
+          nic: data.result.nic,
+        });
+      }
+      console.log(data);
+    }
+    getParentDetails();
+  }, [isFocused]);
+
+  useEffect(() => {
+    async function getChildren() {
+      const { data, error } = await apiClient.getChildren();
+      if (data.result != undefined) {
+        setChildren(data.result);
+      }
+      console.log(children);
+    }
+    getChildren();
+  }, [isFocused]);
   // useEffect(() => {
   //   async function getKind() {
   //     const { data, error } = await apiClient.loadDetails();
@@ -80,7 +113,7 @@ const Header = () => {
         <View style={styles.parentBox}>
           <View style={styles.ParentBoxLeft}>
             <View style={styles.parentNameContainer}>
-              <Text style={styles.parentName}>Dilshi Navodya</Text>
+              <Text style={styles.parentName}>{fetchData.name}</Text>
             </View>
             <View style={styles.editProfileContainer}>
               <Text style={styles.parentTxt}>Parent</Text>
@@ -109,69 +142,33 @@ const Header = () => {
         <View style={styles.ChildTopic}>
           <Text style={styles.ChildTopicText}>Children</Text>
         </View>
-        <TouchableOpacity
-          style={styles.childBox}
-          onPress={() => navigation.navigate("EditChild")}
-        >
-          <View style={styles.childBoxLeft}>
-            <View style={styles.childNameContainer}>
-              <Text style={styles.childName}>Dilshi Navodya</Text>
-            </View>
-          </View>
-          <View style={styles.childBoxRight}>
-            {fetchData.image ? (
-              <Image
-                source={{ uri: fetchData.image }}
-                style={styles.profilePicChild}
-              />
-            ) : (
-              <Image
-                source={require("../../assets/images/profilePic.jpg")}
-                style={styles.profilePicChild}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.childBox}>
-          <View style={styles.childBoxLeft}>
-            <View style={styles.childNameContainer}>
-              <Text style={styles.childName}>Roshan Senevirathne</Text>
-            </View>
-          </View>
-          <View style={styles.childBoxRight}>
-            {fetchData.image ? (
-              <Image
-                source={{ uri: fetchData.image }}
-                style={styles.profilePicChild}
-              />
-            ) : (
-              <Image
-                source={require("../../assets/images/profilePic.jpg")}
-                style={styles.profilePicChild}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.childBox}>
-          <View style={styles.childBoxLeft}>
-            <View style={styles.childNameContainer}>
-              <Text style={styles.childName}>Faalil Bary</Text>
-            </View>
-          </View>
-          <View style={styles.childBoxRight}>
-            {fetchData.image ? (
-              <Image
-                source={{ uri: fetchData.image }}
-                style={styles.profilePicChild}
-              />
-            ) : (
-              <Image
-                source={require("../../assets/images/profilePic.jpg")}
-                style={styles.profilePicChild}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
+        {children != null
+          ? children.map((data) => {
+              return (
+                <TouchableOpacity style={styles.childBox}>
+                  <View style={styles.childBoxLeft}>
+                    <View style={styles.childNameContainer}>
+                      <Text style={styles.childName}>{data.fullname}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.childBoxRight}>
+                    {data.image ? (
+                      <Image
+                        source={{ uri: data.image }}
+                        style={styles.profilePicChild}
+                      />
+                    ) : (
+                      <Image
+                        source={require("../../assets/images/profilePic.jpg")}
+                        style={styles.profilePicChild}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })
+          : null}
+
         <TouchableOpacity
           style={styles.addStudent}
           onPress={() => navigation.navigate("AddChild")}

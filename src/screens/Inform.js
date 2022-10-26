@@ -24,7 +24,20 @@ const Inform = () => {
       "/" +
       new Date().getFullYear()
   );
-
+  useEffect(() => {
+    apiClient
+      .getToken()
+      .then((data) => data)
+      .then((value) => {
+        if (value == "") {
+          console.log(value);
+          navigation.navigate("Login");
+        } else {
+          apiClient.setToken(value);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);

@@ -15,8 +15,17 @@ import React, { useState, useEffect } from "react";
 import Slideshow from "react-native-image-slider-show";
 import { Rating, AirbnbRating } from "react-native-ratings";
 
-const MoreDetails = () => {
+const MoreDetails = ({ route }) => {
   let imageBucket = [];
+  let frontImage = {
+    url: route.params.details.frontimage,
+  };
+
+  let backImage = {
+    url: route.params.details.backimage,
+  };
+  imageBucket.push(frontImage);
+  imageBucket.push(backImage);
 
   return (
     <View style={styles.container}>
@@ -26,24 +35,30 @@ const MoreDetails = () => {
         dataSource={imageBucket}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.titleContainerText}>School service to Vishaka</Text>
-        <Text style={styles.locationContainerText}>Piliyandala,Colombo</Text>
+        <Text style={styles.titleContainerText}>
+          {route.params.details.title}
+        </Text>
+        <Text style={styles.locationContainerText}>
+          {route.params.details.startlocation}
+        </Text>
       </View>
       <ScrollView
         style={styles.scrollview}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.detailsContainer}>
-          <Text style={styles.seatsText}>10 seats available</Text>
+          <Text style={styles.seatsText}>
+            {route.params.details.seats} seats available
+          </Text>
           <View style={styles.monthlyCharge}>
-            <Text style={styles.MonthlyChargeText}>Monthly charge</Text>
-            <Text style={styles.MonthlyChargeValue}>Will be decided</Text>
+            <Text style={styles.MonthlyChargeText}>Charge per km</Text>
+            <Text style={styles.MonthlyChargeValue}>
+              Rs. {route.params.details.charge}
+            </Text>
           </View>
           <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText}>
-              Vehicle Description means a description of a vehicle including at
-              a minimum the license information, issuing state, make, model,
-              year, color, body style, and vehicle identification number (VIN).
+              {route.params.details.description}
             </Text>
           </View>
           <View style={styles.rateContainer}>
@@ -65,36 +80,12 @@ const MoreDetails = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.reviewsComplaintsBody}>
-          <Text style={styles.reviewsComplaintsBodyText}>
-            ocnodjcndvsaoascnadoj asojcncnsoscjn odwjnwdojnowjdcnwdocjndc
-            ojnwojdnwdocjn wjoen eoewoejcnweocjncecwojecocn ojwneojnv
-            eofjwneofjwne ojefn
-          </Text>
-          <Text style={styles.reviewsComplaintsBodyName}>Faalil Bary</Text>
+          <Text style={styles.reviewsComplaintsBodyText}>(Not Available)</Text>
+          <Text style={styles.reviewsComplaintsBodyName}></Text>
         </View>
         <View style={styles.reviewsComplaintsBody}>
-          <Text style={styles.reviewsComplaintsBodyText}>
-            ocnodjcndvsaoascnadoj asojcncnsoscjn odwjnwdojnowjdcnwdocjndc
-            ojnwojdnwdocjn wjoen eoewoejcnweocjncecwojecocn ojwneojnv
-            eofjwneofjwne ojefn
-          </Text>
-          <Text style={styles.reviewsComplaintsBodyName}>Faalil Bary</Text>
-        </View>
-        <View style={styles.reviewsComplaintsBody}>
-          <Text style={styles.reviewsComplaintsBodyText}>
-            ocnodjcndvsaoascnadoj asojcncnsoscjn odwjnwdojnowjdcnwdocjndc
-            ojnwojdnwdocjn wjoen eoewoejcnweocjncecwojecocn ojwneojnv
-            eofjwneofjwne ojefn
-          </Text>
-          <Text style={styles.reviewsComplaintsBodyName}>Faalil Bary</Text>
-        </View>
-        <View style={styles.reviewsComplaintsBody}>
-          <Text style={styles.reviewsComplaintsBodyText}>
-            ocnodjcndvsaoascnadoj asojcncnsoscjn odwjnwdojnowjdcnwdocjndc
-            ojnwojdnwdocjn wjoen eoewoejcnweocjncecwojecocn ojwneojnv
-            eofjwneofjwne ojefn
-          </Text>
-          <Text style={styles.reviewsComplaintsBodyName}>Faalil Bary</Text>
+          <Text style={styles.reviewsComplaintsBodyText}>(Not Available)</Text>
+          <Text style={styles.reviewsComplaintsBodyName}></Text>
         </View>
       </ScrollView>
       <View style={styles.callRequestShare}>

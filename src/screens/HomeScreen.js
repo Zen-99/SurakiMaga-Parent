@@ -15,10 +15,38 @@ import { Icon, SearchBar } from "react-native-elements";
 import { Searchbar } from "react-native-paper";
 import Header from "../context/Header";
 import { colors, parameters } from "../globals/styles";
+import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
   const countries = ["Egypt", "Canada", "Australia", "Ireland"];
   const [searchAvailable, setSearchAvailable] = useState(false);
+  const isFocused = useIsFocused();
+  const [adDetails, setAdDetails] = useState(null);
+  useEffect(() => {
+    apiClient
+      .getToken()
+      .then((data) => data)
+      .then((value) => {
+        if (value == "") {
+          console.log(value);
+          navigation.navigate("Login");
+        } else {
+          apiClient.setToken(value);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
+
+  useEffect(() => {
+    async function getAdvertisements() {
+      const { data, error } = await apiClient.getAdvertisements();
+      if (data.result != undefined) {
+        setAdDetails(data.result);
+      }
+    }
+    getAdvertisements();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header />
@@ -76,45 +104,66 @@ const HomeScreen = ({ navigation }) => {
         style={styles.scrollview}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.contentBox}>
-          <View style={styles.leftSide}>
-            <Image
-              source={require("../../assets/images/Picture1.png")}
-              style={styles.contentBoxImage}
-            />
-          </View>
-          <View style={styles.rightSide}>
-            <View style={styles.rightUpper}>
-              <View style={styles.contentBoxTitle}>
-                <Text style={styles.contentBoxTitleText}>
-                  School service to Vishaka
-                </Text>
-              </View>
-              <View style={styles.ratings}>
-                <View style={styles.ratingsBox}>
-                  <Text style={styles.ratingsText}>8.6</Text>
+        {adDetails != null
+          ? adDetails.map((data) => {
+              return (
+                <View style={styles.contentBox}>
+                  <View style={styles.leftSide}>
+                    {data.frontimage ? (
+                      <Image
+                        source={{ uri: data.frontimage }}
+                        style={styles.contentBoxImage}
+                      />
+                    ) : (
+                      <Image
+                        source={require("../../assets/images/Picture1.png")}
+                        style={styles.contentBoxImage}
+                      />
+                    )}
+                  </View>
+                  <View style={styles.rightSide}>
+                    <View style={styles.rightUpper}>
+                      <View style={styles.contentBoxTitle}>
+                        <Text style={styles.contentBoxTitleText}>
+                          {data.title}
+                        </Text>
+                      </View>
+                      <View style={styles.ratings}>
+                        <View style={styles.ratingsBox}>
+                          <Text style={styles.ratingsText}>8.6</Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.rightLower}>
+                      <View style={styles.rightLowerLeft}>
+                        <Text style={styles.locationText}>
+                          {data.startlocation}
+                        </Text>
+                        <Text style={styles.typeText}>{data.vehicletype}</Text>
+                        <View style={styles.seatsBox}>
+                          <Text style={styles.seatsBoxText}>
+                            {data.seats} Seats
+                          </Text>
+                        </View>
+                        <View style={styles.seatsAndViewMore}>
+                          <TouchableOpacity
+                            style={styles.ViewMoreBtn}
+                            onPress={() =>
+                              navigation.navigate("MoreDetails", {
+                                details: data,
+                              })
+                            }
+                          >
+                            <Text style={styles.ViewMoreBtnTxt}>View more</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-            <View style={styles.rightLower}>
-              <View style={styles.rightLowerLeft}>
-                <Text style={styles.locationText}>Piliyandala</Text>
-                <Text style={styles.typeText}>Van</Text>
-                <View style={styles.seatsBox}>
-                  <Text style={styles.seatsBoxText}>20 Seats</Text>
-                </View>
-                <View style={styles.seatsAndViewMore}>
-                  <TouchableOpacity
-                    style={styles.ViewMoreBtn}
-                    onPress={() => navigation.navigate("MoreDetails")}
-                  >
-                    <Text style={styles.ViewMoreBtnTxt}>View more</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
+              );
+            })
+          : null}
       </ScrollView>
     </View>
   );
@@ -295,13 +344,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    height: "35%",
+    height: "40%",
   },
   rightLower: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    height: "65%",
+    height: "60%",
   },
   contentBoxTitle: {
     display: "flex",

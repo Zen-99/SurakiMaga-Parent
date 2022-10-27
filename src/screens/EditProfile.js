@@ -15,7 +15,7 @@ import { Icon } from "react-native-elements";
 import { colors, parameters } from "../globals/styles";
 import React, { useState, useEffect } from "react";
 
-const EditProfile = () => {
+const EditProfile = ({ route }) => {
   const [formError, setFormError] = useState(null);
   const [mobileNo, setMobileNo] = useState({
     mobile: "",
@@ -53,9 +53,9 @@ const EditProfile = () => {
           <Text style={styles.title}>Edit Profile</Text>
         </View>
         <View style={styles.picAndEdit}>
-          {fetchData.image ? (
+          {route.params.data.image != null ? (
             <Image
-              source={{ uri: fetchData.image }}
+              source={{ uri: route.params.data.image }}
               style={styles.profilePicBig}
             />
           ) : (
@@ -77,6 +77,7 @@ const EditProfile = () => {
               style={styles.textInput2}
               mode="outlined"
               label="Full Name"
+              value={route.params.data.name}
               editable={editNameState}
               onChangeText={(text) =>
                 setMobileNo({ ...mobileNo, mobile: text })
@@ -121,7 +122,7 @@ const EditProfile = () => {
               style={styles.textInput2}
               mode="outlined"
               label="Contact No"
-              value={mobileNo.mobile}
+              value={route.params.data.contact}
               editable={editContactState}
               onChangeText={(text) =>
                 setMobileNo({ ...mobileNo, mobile: text })
@@ -165,8 +166,9 @@ const EditProfile = () => {
             <TextInput
               style={styles.textInput2}
               mode="outlined"
-              label="Email"
+              label="Nic"
               editable={editNameState}
+              value={route.params.data.nic}
               onChangeText={(text) =>
                 setMobileNo({ ...mobileNo, mobile: text })
               }

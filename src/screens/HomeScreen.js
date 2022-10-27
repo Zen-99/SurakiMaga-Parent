@@ -107,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
         {adDetails != null
           ? adDetails.map((data) => {
               return (
-                <View style={styles.contentBox}>
+                <View style={styles.contentBox} key={data.id}>
                   <View style={styles.leftSide}>
                     {data.frontimage ? (
                       <Image

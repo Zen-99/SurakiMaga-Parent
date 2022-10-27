@@ -26,6 +26,7 @@ const Map = () => {
     longitude: 79.85548,
     speed: 0.0023679917212575674,
   });
+
   const origin = {
     latitude: 6.902333307966652,
     longitude: 79.8611743548024,
@@ -56,18 +57,19 @@ const Map = () => {
       })
       .catch((err) => console.log(err));
   });
+
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
         <View style={styles.firstRow}>
-          <Text style={styles.firstRowFont}>16 KM Left</Text>
+          <Text style={styles.firstRowFont}>2.7 KM Left</Text>
         </View>
         <View style={styles.secondRow}>
           <View style={styles.left}>
             <Text style={styles.secondRowFont}>Total Distance</Text>
           </View>
           <View style={styles.right}>
-            <Text style={styles.secondRowFont}>16 KM</Text>
+            <Text style={styles.secondRowFont}>2.7 KM</Text>
           </View>
         </View>
         <View style={styles.secondRow}>

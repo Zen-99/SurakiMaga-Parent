@@ -3,6 +3,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Modal,
   Image,
   ScrollView,
   StatusBar,
@@ -17,12 +18,16 @@ import Header from "../context/Header";
 
 const SchoolVan = ({ navigation }) => {
   let imageBucket = [];
+  const [modalVisible, setModalVisible] = useState(false);
   const [information, setInformation] = useState({
     owner: "",
     Driver: "",
     vehicleno: "",
     DriverImage: "",
+    frontImage: "",
+    image: "",
   });
+  const [username, setUsername] = useState("Faalil");
   useEffect(() => {
     apiClient
       .getToken()
@@ -36,8 +41,67 @@ const SchoolVan = ({ navigation }) => {
       })
       .catch((err) => console.log(err));
   });
+  useEffect(() => {
+    async function getVehicleDetails() {
+      const { data, error } = await apiClient.getVehicleDetails({
+        studentid: username,
+      });
+      if (data.result != undefined) {
+        setInformation({
+          owner: data.result.ownername,
+          vehicleno: data.result.vehicleno,
+          Driver: data.result.drivername,
+          frontImage: data.result.frontimage,
+          image: data.result.backimage,
+        });
+        console.log(data);
+      }
+    }
+    getVehicleDetails();
+  }, []);
+  let frontImage = {
+    url: information.frontImage,
+  };
+
+  let backImage = {
+    url: information.image,
+  };
+  imageBucket.push(frontImage);
+  imageBucket.push(backImage);
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent
+        style={styles.alert}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.alert}>
+          <View style={styles.alertbox}>
+            <View style={styles.alertUpper}>
+              <Text style={styles.alertTitle}>Are you sure do you</Text>
+              <Text style={styles.alertTitle}>want to leave?</Text>
+            </View>
+            <View style={styles.alertLower}>
+              <TouchableOpacity
+                style={styles.confirmbtn}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.confirmbtnText}>Yeah, I'm sure</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmbtn}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.confirmbtnText}>I have to think</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Header />
       <ScrollView
         style={styles.scrollview}
@@ -93,7 +157,12 @@ const SchoolVan = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button2}>
-          <Text style={styles.button2Text}>Leave This school van</Text>
+          <Text
+            style={styles.button2Text}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            Leave This school van
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -259,8 +328,8 @@ const styles = StyleSheet.create({
   button2: {
     display: "flex",
     flexDirection: "row",
-    height: 60,
-    width: (parameters.SCREEN_WIDTH * 4) / 6,
+    height: 50,
+    width: (parameters.SCREEN_WIDTH * 3.5) / 6,
     backgroundColor: "white",
     borderRadius: 20,
     alignSelf: "center",
@@ -289,8 +358,8 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   button: {
-    height: 60,
-    width: (parameters.SCREEN_WIDTH * 4) / 6,
+    height: 50,
+    width: (parameters.SCREEN_WIDTH * 3.5) / 6,
     backgroundColor: colors.orange,
     borderRadius: 20,
     alignSelf: "center",
@@ -322,5 +391,60 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+  },
+  alert: {
+    flex: 1,
+    backgroundColor: "#00000090",
+    alignItems: "center",
+    justifyContent: "center",
+    width: parameters.SCREEN_WIDTH,
+    height: parameters.SCREEN_HEIGHT,
+
+    // backgroundColor:'red',
+  },
+  alertbox: {
+    paddingTop: 5,
+    display: "flex",
+    borderRadius: 5,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: (parameters.SCREEN_WIDTH * 3) / 4,
+    height: (parameters.SCREEN_HEIGHT * 4) / 14,
+    backgroundColor: colors.midBoxWhite,
+    // shadowColor: '#171717',
+    // shadowOffset: {width: -3, height: 4},
+    // shadowOpacity: 1,
+    // shadowRadius: 3,
+  },
+  alertTitle: {
+    fontSize: 20,
+  },
+  confirmbtn: {
+    height: 40,
+    width: parameters.SCREEN_WIDTH / 2.7,
+    backgroundColor: colors.orange,
+    borderRadius: 5,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  confirmbtnText: {
+    alignSelf: "center",
+    justifyContent: "center",
+    color: colors.white,
+    fontSize: 20,
+    marginTop: -2,
+  },
+  alertUpper: {
+    display: "flex",
+    width: "100%",
+    height: "45%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  alertLower: {
+    display: "flex",
+    width: "100%",
+    height: "55%",
+    justifyContent: "space-around",
   },
 });

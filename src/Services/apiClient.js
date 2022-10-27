@@ -108,6 +108,13 @@ class ApiClient {
       method: `GET`,
     });
   }
+  async getVehicleDetails(credentials) {
+    return await this.request({
+      endpoint: `parent/childvandetails`,
+      method: `POST`,
+      data: credentials,
+    });
+  }
   async loadStudentLocations() {
     return await this.request({
       endpoint: `driverauth/studentLocations`,

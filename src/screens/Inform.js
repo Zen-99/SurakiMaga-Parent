@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import apiClient from "../Services/apiClient";
 import { colors, parameters } from "../globals/styles";
 import DatePicker from "@react-native-community/datetimepicker";
 import Header from "../context/Header";
@@ -136,7 +137,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: (parameters.SCREEN_WIDTH * 5) / 6,
+    backgroundColor: colors.midBoxWhite,
+    borderRadius: 5,
     marginBottom: 50,
+    shadowColor: "#7F5DF0",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
   },
   dateTitle: {
     fontSize: 18,
@@ -175,11 +186,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+    shadowColor: "#7F5DF0",
+    backgroundColor: colors.midBoxWhite,
+    borderRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
     // backgroundColor: "blue",
   },
   confirmTxtBold: {
     fontSize: 25,
     fontWeight: "500",
+    marginBottom: 10,
   },
   confirmTxt: {
     fontSize: 20,

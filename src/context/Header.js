@@ -26,6 +26,12 @@ const Header = () => {
   });
   const [children, setChildren] = useState(null);
 
+  const logout = () => {
+    console.log("function called");
+    apiClient.removeToken();
+    navigation.navigate("LandingPage");
+  };
+
   useEffect(() => {
     async function getParentDetails() {
       const { data, error } = await apiClient.getParentDetails();
@@ -34,7 +40,7 @@ const Header = () => {
           id: data.result.id,
           name: data.result.name,
           image: data.result.pro_pic,
-          contact: data.result.contact,
+          contact: data.result.contact.toString(),
           nic: data.result.nic,
         });
       }
@@ -119,7 +125,9 @@ const Header = () => {
               <Text style={styles.parentTxt}>Parent</Text>
               <TouchableOpacity
                 style={styles.editProfileBtn}
-                onPress={() => navigation.navigate("EditProfile")}
+                onPress={() =>
+                  navigation.navigate("EditProfile", { data: fetchData })
+                }
               >
                 <Text style={styles.editProfileBtnText}>Edit Profile</Text>
               </TouchableOpacity>
@@ -180,6 +188,9 @@ const Header = () => {
           <Text style={styles.addStudentText}>Add Children</Text>
         </TouchableOpacity>
         <View style={styles.hr}></View>
+        <TouchableOpacity style={styles.editProfileBtn} onPress={logout}>
+          <Text style={styles.editProfileBtnText}>Log out</Text>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
